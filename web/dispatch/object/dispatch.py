@@ -5,7 +5,6 @@ from inspect import isclass, isroutine
 
 from webob.exc import HTTPNotFound
 from marrow.package.loader import load
-from ..core.compat import ldump
 
 
 log = __import__('logging').getLogger(__name__)
@@ -21,10 +20,11 @@ def ipeek(d):
 class ObjectDispatch(object):
 	def __init__(self, config):
 		self.trailing = config.get('slashes', True)
-		super(ObjectDispatchDialect, self).__init__()
+		super(ObjectDispatch, self).__init__()
 	
 	def __call__(self, context, root):
-		log.debug("%d:Starting dispatch.%s", id(context.request), ldump(
+		log.debug("Starting dispatch.", extra=dict(
+				request = id(context.request),
 				script_name = context.request.script_name,
 				path_info = context.request.path_info,
 				root = repr(root)
@@ -37,15 +37,15 @@ class ObjectDispatch(object):
 		# If present there was a trailing slash in the original path.
 		if path[-1:] == ['']:
 			trailing = True
-			log.debug("%d:Tracked trailing slash.", id(context.request))
+			log.debug("Tracked trailing slash.", extra=dict(request=id(context.request)))
 			path.pop()
 		
 		# We don't care about leading slashes.
 		if path[:1] == ['']:
-			log.debug("%d:Eliminated leading slash.", id(context.request))
+			log.debug("Eliminated leading slash.", extra=dict(request=id(context.request)))
 			path.pop(0)
 		
-		log.debug("%d:Search path identified.%s", id(context.request), ldump(path=path))
+		log.debug("Search path identified.", extra=dict(request=id(context.request), path=path))
 		
 		last = ''
 		parent = None
@@ -53,14 +53,14 @@ class ObjectDispatch(object):
 		
 		# Iterate through and consume the path element (chunk) list.
 		for chunk in ipeek(path):
-			log.debug("%d:Begin dispatch step.%s", id(context.request), ldump(
+			log.debug("Begin dispatch step.", extra=dict(request=id(context.request),
 					chunk = chunk,
 					path = path,
 					current = repr(current)
 				))
 				
 			if isclass(current):
-				log.debug("%d:Instantiating class.", id(context.request))
+				log.debug("Instantiating class.", extra=dict(request=id(context.request)))
 				current = current(context)
 			
 			parent = current
@@ -73,7 +73,7 @@ class ObjectDispatch(object):
 			
 			current = getattr(parent, str(chunk), None)
 			if current:
-				log.debug("%d:Found attribute.%s", id(context.request), ldump(current=repr(current)))
+				log.debug("Found attribute.", extra=dict(request=id(context.request), current=repr(current)))
 			
 			# If there is no attribute (real or via __getattr__) try the __lookup__ method to re-route.
 			if not current:
@@ -118,7 +118,7 @@ if __debug__ and __name__ == '__main__':  # pragma: no cover
 		def __call__(self):
 			return "Hello world!"
 	
-	router = ObjectDispatchDialect(dict())
+	router = ObjectDispatch(dict())
 	
 	for i,j,k in router(context, RootController):
 		context.log.info(path=i,obj=j,final=k)

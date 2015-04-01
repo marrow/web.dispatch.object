@@ -7,7 +7,7 @@ Much work needs to be done.
 
 from functools import partial, wraps
 
-from marrow.wsgi.exceptions import HTTPMethodNotAllowed
+from webob.exc import HTTPMethodNotAllowed
 
 
 class Method(object):

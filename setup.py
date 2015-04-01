@@ -104,8 +104,7 @@ setup(
 	
 	tests_require = tests_require,
 	
-	dependency_links = [
-		],
+	dependency_links = [],
 	
 	zip_safe = True,
 	cmdclass = dict(
