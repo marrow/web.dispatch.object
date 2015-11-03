@@ -48,13 +48,13 @@ tests_require = [
 
 
 setup(
-	name = "WebCore.dispatch.object",
+	name = "web.dispatch.object",
 	version = version,
 	
 	description = description,
 	long_description = codecs.open(os.path.join(here, 'README.rst'), 'r', 'utf8').read(),
 	url = url,
-	download_url = 'https://warehouse.python.org/project/WebCore.dispatch.object/',
+	download_url = 'https://warehouse.python.org/project/web.dispatch.object/',
 	
 	author = author.name,
 	author_email = author.email,
