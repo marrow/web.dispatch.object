@@ -1,6 +1,5 @@
 # encoding: utf-8
 
-from json import dumps
 from inspect import isclass, isroutine
 
 from webob.exc import HTTPNotFound
@@ -23,12 +22,13 @@ class ObjectDispatch(object):
 		super(ObjectDispatch, self).__init__()
 	
 	def __call__(self, context, root):
-		log.debug("Starting dispatch.", extra=dict(
-				request = id(context.request),
-				script_name = context.request.script_name,
-				path_info = context.request.path_info,
-				root = repr(root)
-			))
+		if __debug__:
+			log.debug("Starting object dispatch.", extra=dict(
+					request = id(context.request),
+					script_name = context.request.script_name,
+					path_info = context.request.path_info,
+					root = repr(root)
+				))
 		
 		path = context.request.path_info.split('/')
 		trailing = False
@@ -37,15 +37,14 @@ class ObjectDispatch(object):
 		# If present there was a trailing slash in the original path.
 		if path[-1:] == ['']:
 			trailing = True
-			log.debug("Tracked trailing slash.", extra=dict(request=id(context.request)))
 			path.pop()
 		
 		# We don't care about leading slashes.
 		if path[:1] == ['']:
-			log.debug("Eliminated leading slash.", extra=dict(request=id(context.request)))
 			path.pop(0)
 		
-		log.debug("Search path identified.", extra=dict(request=id(context.request), path=path))
+		if __debug__:
+			log.debug("Search path identified.", extra=dict(request=id(context.request), path=path))
 		
 		last = ''
 		parent = None
@@ -53,14 +52,16 @@ class ObjectDispatch(object):
 		
 		# Iterate through and consume the path element (chunk) list.
 		for chunk in ipeek(path):
-			log.debug("Begin dispatch step.", extra=dict(request=id(context.request),
-					chunk = chunk,
-					path = path,
-					current = repr(current)
-				))
+			if __debug__:
+				log.debug("Begin dispatch step.", extra=dict(request=id(context.request),
+						chunk = chunk,
+						path = path,
+						current = repr(current)
+					))
 				
 			if isclass(current):
-				log.debug("Instantiating class.", extra=dict(request=id(context.request)))
+				if __debug__:
+					log.debug("Instantiating class.", extra=dict(request=id(context.request)))
 				current = current(context)
 			
 			parent = current
@@ -68,11 +69,11 @@ class ObjectDispatch(object):
 			# Security: prevent access to real private attributes.
 			# This is tricky as we need to avoid __getattr__ behaviour.
 			if chunk[0] == '_' and (hasattr(current.__class__, chunk) or chunk in current.__dict__):
-				log.warn("%d:Blocked access to private attribute.")
+				log.warn("Blocked access to private attribute.", extra=dict(request=id(context.request)))
 				raise HTTPNotFound()
 			
 			current = getattr(parent, str(chunk), None)
-			if current:
+			if __debug__ and current:
 				log.debug("Found attribute.", extra=dict(request=id(context.request), current=repr(current)))
 			
 			# If there is no attribute (real or via __getattr__) try the __lookup__ method to re-route.
