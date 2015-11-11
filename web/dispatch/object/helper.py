@@ -11,7 +11,7 @@ from webob.exc import HTTPMethodNotAllowed
 
 
 class Method(object):
-    _allowable = ('get', 'put', 'post', 'delete', 'head', 'trace', 'options')
+    _allowable = ('get', 'xhr', 'put', 'post', 'delete', 'head', 'trace', 'options')
     
     def __init__(self, real=True):
         self._methods = ['OPTIONS']
@@ -39,10 +39,14 @@ class Method(object):
     
     def __call__(self, context):
         request = context.request
-        verb = request.kwargs.pop('_verb', request.method).lower()
-        request.method = verb.upper()
+        verb = request.method.lower()
+        #verb = request.kwargs.pop('_verb', request.method).lower()
+        #request.method = verb.upper()
         context.response.allow = self._methods
         
+        if request.method == 'get' and request.is_xhr:
+            request.method = 'xhr'
+
         if request.method not in self._methods:
             raise HTTPMethodNotAllowed()
         
