@@ -50,50 +50,53 @@ class ObjectDispatch(object):
 		parent = None
 		current = root
 		
-		# Iterate through and consume the path element (attribute) list.
-		for attribute in ipeek(path):
+		# Iterate through and consume the path element (chunk) list.
+		for chunk in ipeek(path):
+			if __debug__:
+				log.debug("Begin dispatch step.", extra=dict(request=id(context.request),
+						chunk = chunk,
+						path = path,
+						current = repr(current)
+					))
+				
 			if isclass(current):
 				if __debug__:
-					log.debug("Instantiating class.", extra=dict(request=id(context.request), current=current))
+					log.debug("Instantiating class.", extra=dict(request=id(context.request)))
 				current = current(context)
 			
 			parent = current
 			
-			if __debug__:
-				log.debug("Begin dispatch step.", extra=dict(request=id(context.request),
-						attribute = attribute,
-						path = path,
-						parent = repr(parent)
-					))
-			
 			# Security: prevent access to real private attributes.
 			# This is tricky as we need to avoid __getattr__ behaviour.
-			if attribute[0] == '_' and (hasattr(current.__class__, attribute) or attribute in current.__dict__):
+			if chunk[0] == '_' and (hasattr(current.__class__, chunk) or chunk in current.__dict__):
 				log.warn("Blocked access to private attribute.", extra=dict(request=id(context.request)))
 				raise HTTPNotFound()
 			
-			current = getattr(parent, str(attribute), None)
+			current = getattr(parent, str(chunk), None)
 			if __debug__ and current:
 				log.debug("Found attribute.", extra=dict(request=id(context.request), current=repr(current)))
 			
 			# If there is no attribute (real or via __getattr__) try the __lookup__ method to re-route.
 			if not current:
-				if isroutine(parent):
-					yield last.split('/'), parent, True
-					return
-				
-				try:
-					fallback = parent.__lookup__
-				except AttributeError:
-					raise HTTPNotFound()
+				if not callable(parent):
+					try:
+						fallback = parent.__lookup__
+					except AttributeError:
+						raise HTTPNotFound()
+					else:
+						current, consumed = fallback(*path)
+						chunk = '/'.join(consumed)
+						del path[:len(consumed)]
 				else:
-					current, consumed = fallback(*path)
-					attribute = '/'.join(consumed)
-					del path[:len(consumed)]
-				
+					if isroutine(parent):
+						yield last.split('/'), parent, True
+					else:
+						yield last.split('/'), parent, True
+					return
+			
 			yield last.split('/'), parent, False
 			
-			last = str(attribute)
+			last = str(chunk)
 		
 		if isclass(current):
 			current = current(context)
