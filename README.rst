@@ -104,7 +104,7 @@ to prepare the path according to the protocol::
     path = "/foo/bar/baz"  # Initial path, i.e. the path component of a URL.
     path = path.split('/')  # Find the path components.
     path = path[1:]  # Skip the singular leading slash; see the API specification.
-    path = deque(path)  # Provide the path as a deque instance, to allow for optimized ``popleft()``.
+    path = deque(path)  # Provide the path as a deque instance, allowing popleft.
 
 Of course, the above is rarely split apart like that. We split apart the invidiual steps of path processing here to
 more clearly illustrate the process. In a web framework the above would happen once per request that uses dispatch.
