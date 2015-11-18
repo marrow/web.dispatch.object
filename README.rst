@@ -119,15 +119,17 @@ dispatch.  If the value ``None`` is provided, classes won't be instantiated with
 provided it will be passed as the first positional argument to instantiation.
 
 After completing iteration, check the final ``endpoint``.  If it is ``True`` then the path was successfully mapped to
-the object referenced by ``handler`` variable, otherwise it represents the deepest object that was able to be found.
-While some dispatchers might not support partial path resolution and may instead raise ``LookupError`` or a subclass,
-such as ``AttriuteError`` or ``KeyError``, object dispatch does not do this. This is to allow the framework making
-use of object dispatch to decide for itself how to proceed in the event of failed or partial lookup in a somewhat
-cleaner way than extensive exception handling within a loop.
+the object referenced by the ``handler`` variable, otherwise it represents the deepest object that was able to be
+found. While some dispatchers might not support partial path resolution and may instead raise ``LookupError`` or a
+subclass, such as ``AttriuteError`` or ``KeyError``, object dispatch does not do this. This is to allow the framework
+making use of object dispatch to decide for itself how to proceed in the event of failed or partial lookup, in a
+somewhat cleaner way than extensive exception handling within a loop.
 
-In the context of a web framework dispatch being an iterable process makes a lot of sense. In the simplest use of
-iteration, path elements would be moved from ``PATH_INFO`` to ``SCRIPT_NAME`` as dispatch progresses. You can
-always just skip straight to the answer::
+In the context of a web framework, dispatch being an iterable process makes a lot of sense. In the simplest use of
+iteration, path elements would be moved from ``PATH_INFO`` to ``SCRIPT_NAME`` as dispatch progresses, or to build up a
+"bread crumb list" of accessible controllers.
+
+You can always just skip straight to the answer if you so choose::
 
     segment, handler, endpoint = list(dispatch(None, some_object, path))[-1]
 
