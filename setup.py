@@ -93,10 +93,7 @@ setup(
 				],
 		},
 	
-	install_requires = [
-			'marrow.package<2.0',  # dynamic execution and plugin management
-			'WebOb',  # HTTP request and response objects, and HTTP status code exceptions
-		],
+	install_requires = [],
 	
 	extras_require = dict(
 			development = tests_require,

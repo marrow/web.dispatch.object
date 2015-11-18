@@ -1,9 +1,6 @@
 # encoding: utf-8
 
-from inspect import isclass, isroutine
-
-from webob.exc import HTTPNotFound
-from marrow.package.loader import load
+from inspect import isclass
 
 
 log = __import__('logging').getLogger(__name__)
