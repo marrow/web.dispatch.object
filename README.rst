@@ -135,6 +135,12 @@ You can always just skip straight to the answer if you so choose::
 
 However, providing some mechanism for callbacks or notifications of dispatch is often far more generally useful.
 
+**Note:** It is entirely permissable for dispatchers to return ``None`` as a processed path segment. Object dispatch
+will do this to announce the starting point of dispatch. This is especially useful if you need to know if the initial
+object was a class that was instantiated.  (In that event ``handler`` will be an instance of ``some_object`` during
+the first iteration instead of being literally ``some_object``.)  Other dispatchers may return ``None`` at other
+times, such as to indicate multiple steps of intermediate processing.
+
 
 Dispatchable Objects
 --------------------
