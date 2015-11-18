@@ -7,7 +7,15 @@ from inspect import isclass
 
 log = __import__('logging').getLogger(__name__)
 
-nodefault = object()  # Sentinel value.
+
+
+class NoDefault(object):
+	__slots__ = []
+	
+	def __repr__(self):
+		return "<no value>"
+
+nodefault = NoDefualt()  # Sentinel value.
 
 
 def ipeek(d):
