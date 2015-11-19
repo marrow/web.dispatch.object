@@ -7,7 +7,7 @@ def init(self, context):
 	self._ctx = context
 
 
-def function(context):
+def function(context, *args):
 	return 'function /' + '/'.join(args)
 
 
