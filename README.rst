@@ -205,7 +205,7 @@ of things, each with their own set of endpoints::
         def __getattr__(self, identifier):
             return Thing(identifier)
 
-Because there is a ``__getattr__`` method and it does not raise a ``AttributeError`` all first path segments are
+Because there is a ``__getattr__`` method and it does not raise an ``AttributeError`` all first path segments are
 valid on the ``Things`` class, giving you such paths as::
 
     / - Things.__call__
