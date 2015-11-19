@@ -106,8 +106,8 @@ class ObjectDispatch(object):
 			yield current, obj, True
 			return
 		
-		# We bailed, so "obj" represents the last found attribute, "previous" is the path element matching that object,
-		# and "current" represents the failed element. Because we bailed, "current" remains in the path.
+		# We bailed, so "obj" represents the last found attribute, "previous" is the path element matching that
+		# object, and "current" represents the failed element. Because we bailed, "current" remains in the path.
 		
 		if __debug__:
 			log.debug("Dispatch interrupted attempting to resolve attribute: " + current, extra=dict(
