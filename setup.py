@@ -18,8 +18,8 @@ from setuptools.command.test import test as TestCommand
 
 if sys.version_info < (2, 7):
 	raise SystemExit("Python 2.7 or later is required.")
-elif sys.version_info > (3, 0) and sys.version_info < (3, 3):
-	raise SystemExit("Python 3.3 or later is required.")
+elif sys.version_info > (3, 0) and sys.version_info < (3, 2):
+	raise SystemExit("Python 3.2 or later is required.")
 
 exec(open(os.path.join("web", "dispatch", "object", "release.py")).read())
 
