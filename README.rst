@@ -185,7 +185,36 @@ In the following example::
                 pass
 
 Only dispatch to the paths ``/``, ``/foo``, and ``/foo/bar`` will resolve, and only ``/foo/bar`` finds a recognizable
-endpoint.
+endpoint. For a somewhat real-world example, the following would successfully represent a database-backed collection
+of things, each with their own set of endpoints::
+
+    class Thing:
+        def __init__(self, identifier):
+            self._thing = identifier  # This might look it up from the DB.
+        
+        def __call__(self):
+            pass  # Handle direct access to an identified thing.
+        
+        def action(self):
+            pass  # This will match any path in the form /<identifier>/action
+    
+    class Things:
+        def __call__(self):
+            pass  # This will only handle the path /
+        
+        def __getattr__(self, identifier):
+            return Thing(identifier)
+
+Because there is a ``__getattr__`` method and it does not raise a ``AttributeError`` all first path segments are
+valid on the ``Things`` class, giving you such paths as::
+
+    / - Things.__call__
+    /foo - Thing.__call__
+    /foo/action - Thing.action
+    /bar - Thing.__call__
+    /bar/action - Thing.action
+
+Et cetera.
 
 
 Version History
