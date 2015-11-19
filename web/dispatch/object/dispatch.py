@@ -15,7 +15,7 @@ class NoDefault(object):
 	def __repr__(self):
 		return "<no value>"
 
-nodefault = NoDefualt()  # Sentinel value.
+nodefault = NoDefault()  # Sentinel value.
 
 
 def ipeek(d):
@@ -85,7 +85,7 @@ class ObjectDispatch(object):
 			if __debug__:
 					log.debug("Retrieved attribute: " + current, extra=dict(
 							dispatcher = dispatcher,
-							source = obj
+							source = obj,
 							name = current,
 							value = repr(new),
 						))
