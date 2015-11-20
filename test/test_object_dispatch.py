@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 import os, sys
-from collections import deque
 
 from web.dispatch.object import ObjectDispatch
 

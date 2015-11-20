@@ -2,6 +2,8 @@
 
 """Objects used to evaluate dispatch in tests."""
 
+from collections import deque
+
 
 def init(self, context):
 	self._ctx = context
