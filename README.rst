@@ -101,13 +101,16 @@ excepting the "mangling" feature which is only `security through obscurity <http
 Now that you have a prepared dispatcher, and presuming you have some "base object" to start dispatch from, you'll need
 to prepare the path according to the protocol::
 
-    path = "/foo/bar/baz"  # Initial path, i.e. the path component of a URL.
+    path = "/foo/bar/baz"  # Initial path, i.e. an HTTP request's PATH_INFO.
     path = path.split('/')  # Find the path components.
     path = path[1:]  # Skip the singular leading slash; see the API specification.
     path = deque(path)  # Provide the path as a deque instance, allowing popleft.
 
 Of course, the above is rarely split apart like that. We split apart the invidiual steps of path processing here to
-more clearly illustrate the process. In a web framework the above would happen once per request that uses dispatch.
+more clearly illustrate. In a web framework the above would happen once per request that uses dispatch. This, of
+course, frees your framework to use whatever internal or public representation of path you want: choices of
+separators, and the ability for deque to consume arbitrary iterables. An RPC system might ``split`` on a period and
+simply not have the possibility of leading separators. Etc.
 
 You can now call the dispatcher and iterate the dispatch events::
 
