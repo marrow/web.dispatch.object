@@ -4,31 +4,15 @@ from __future__ import unicode_literals
 
 from inspect import isclass
 
+from .util import nodefault, ipeek, str
+
+if __debug__:
+	import warnings
+	from collections import deque
+
 
 log = __import__('logging').getLogger(__name__)
 
-
-
-class NoDefault(object):
-	__slots__ = []
-	
-	def __repr__(self):
-		return "<no value>"
-
-nodefault = NoDefault()  # Sentinel value.
-
-
-def ipeek(d):
-	"""Iterate through a deque, popping elements from the left after they have been seen."""
-	last = None
-	
-	# We eat trailing slashes.  No sir, can't say we like 'em.
-	while d and d[-1] == '':
-		d.pop()
-	
-	while d:
-		yield last, d[0]
-		last = d.popleft()
 
 
 class ObjectDispatch(object):
