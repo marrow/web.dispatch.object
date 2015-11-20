@@ -9,11 +9,20 @@ python:
   - "3.4"
   - "3.5"
 
+env:
+  global:
+    - LC_CTYPE=en_US.UTF-8
+    - TZ=UTC
+  matrix:
+    - PYTHONOPTIMIZE=0
+    - PYTHONOPTIMIZE=1
+
 install:
   - travis_retry pip install --upgrade setuptools pip pytest
-  - travis_retry pip install tox tox-travis python-coveralls pytest-cov pyflakes pytest_cagoule pytest-spec
+  - travis_retry pip install tox tox-travis
+  - travis_retry tox --notest -r
 
-script: LC_CTYPE=en_US.UTF-8 TZ=UTC tox
+script: tox
 
 notifications:
   irc:
