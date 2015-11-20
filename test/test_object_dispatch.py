@@ -2,11 +2,12 @@
 
 from __future__ import unicode_literals
 
+import os, sys
 from collections import deque
 
 from web.dispatch.object import ObjectDispatch
 
-from sample import function  # , Simple, CallableShallow, CallableDeep, CallableMixed
+from sample import path, function  # , Simple, CallableShallow, CallableDeep, CallableMixed
 
 
 # We pre-create these for the sake of convienence.
@@ -15,8 +16,7 @@ dispatch = ObjectDispatch()
 promiscuous = ObjectDispatch(protect=False)
 
 
-def path(path):
-	return deque(path.split('/')[1:])
+assert 'TEST_PY_VER' in os.environ, "Python version undefined? Run via tox."
 
 
 

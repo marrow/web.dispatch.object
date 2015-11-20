@@ -7,6 +7,10 @@ def init(self, context):
 	self._ctx = context
 
 
+def path(path):
+	return deque(path.split('/')[1:])
+
+
 def function(context, *args):
 	return 'function /' + '/'.join(args)
 
