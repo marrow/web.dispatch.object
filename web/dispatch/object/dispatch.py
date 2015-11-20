@@ -2,7 +2,7 @@
 
 from __future__ import unicode_literals
 
-from inspect import isclass
+from inspect import isclass, isroutine
 
 from .util import nodefault, ipeek, str
 
@@ -33,6 +33,18 @@ class ObjectDispatch(object):
 		dispatcher = repr(self)
 		
 		if __debug__:
+			if not isinstance(path, deque):
+				warnings.warn(
+						"Your code uses auto-casting of paths to a deque; "
+						"this will explode gloriously if run in a production environment.",
+						RuntimeWarning, stacklevel=1
+					)
+				
+				if isinstance(path, str):
+					path = deque(path.split('/')[1 if not path or path.startswith('/') else 0:])
+				else:
+					path = deque(path)
+			
 			log.debug("Preparing object dispatch.", extra=dict(
 					dispatcher = dispatcher,
 					context = repr(context),
@@ -52,6 +64,14 @@ class ObjectDispatch(object):
 							dispatcher = dispatcher,
 							instance = repr(obj),
 						))
+			
+			if isroutine(obj):
+				if __debug__:
+					log.debug("Cowardly refusing to descend into a callable routine.", extra=dict(
+							dispatcher = dispatcher,
+							handler = obj,
+						))
+				break
 			
 			if protect and current.startswith('_'):  # We disallow private attribute access.
 				if __debug__:
