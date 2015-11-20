@@ -96,7 +96,7 @@ The object dispatcher currently only has one configurable option: ``protect``. T
 prematurely end dispatch in the event it encounters a path element beginning with an underscore. This protects Python
 magic attributes (such as ``__name__``), mangled "private" methods (such as ``__foo``), and protected-by-convention
 single underscore prefixed attributes (such as ``_foo``). Python ordinarily does not enforce such protections,
-excepting the "mangling" feature.
+excepting the "mangling" feature which is only `security through obscurity <http://s.webcore.io/image/1X3T0p2h3O0K>`_.
 
 Now that you have a prepared dispatcher, and presuming you have some "base object" to start dispatch from, you'll need
 to prepare the path according to the protocol::
