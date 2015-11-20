@@ -114,7 +114,7 @@ simply not have the possibility of leading separators. Etc.
 
 You can now call the dispatcher and iterate the dispatch events::
 
-    for segment, handler, endpoint in dispatch(None, some_object, path):
+    for segment, handler, endpoint, *meta in dispatch(None, some_object, path):
         print(segment, handler, endpoint)  # Do something with this information.
 
 The initial ``None`` value there represents the "context" to pass along to initializers of classes encountered during
@@ -134,7 +134,7 @@ iteration, path elements would be moved from ``PATH_INFO`` to ``SCRIPT_NAME`` as
 
 You can always just skip straight to the answer if you so choose::
 
-    segment, handler, endpoint = list(dispatch(None, some_object, path))[-1]
+    segment, handler, endpoint, *meta = list(dispatch(None, some_object, path))[-1]
 
 However, providing some mechanism for callbacks or notifications of dispatch is often far more generally useful.
 
@@ -143,6 +143,22 @@ will do this to announce the starting point of dispatch. This is especially usef
 object was a class that was instantiated.  (In that event ``handler`` will be an instance of ``some_object`` during
 the first iteration instead of being literally ``some_object``.)  Other dispatchers may return ``None`` at other
 times, such as to indicate multiple steps of intermediate processing.
+
+Python 2 & 3 Compatibility
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The dispatch protocol is designed to be extendable in the future by using ``namedtuple`` subclasses, however this has
+an impact on usage as you may have noticed the ``*meta`` in there. This syntax, introduced in Python 3, will gather
+any extraneous tuple elements into a separate list. If you actually care about the metadata do not unpack the tuple
+this way.  Instead::
+
+    for meta in dispatch(None, some_object, path):
+        segment, handler, endpoint = step[:3]  # Unpack, but preserve.
+        print(segment, handler, endpoint, meta)  # Do something with this information.
+
+This document is written from the perspective of modern Python 3, and throwing away the metadata within the ``for``
+statement itself provides more compact examples. The above method of unpacking the first three values is the truly
+portable way to do this across versions.
 
 
 Dispatchable Objects
