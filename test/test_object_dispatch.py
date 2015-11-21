@@ -2,7 +2,7 @@
 
 from __future__ import unicode_literals
 
-import os, sys
+import os
 
 from web.dispatch.object import ObjectDispatch
 
