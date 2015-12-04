@@ -2,8 +2,10 @@
 
 try:  # pragma: cover py2
 	str = unicode
+	range = xrange
 except:  # pragma: cover py3
 	str = str
+	range = range
 
 
 class NoDefault(object):

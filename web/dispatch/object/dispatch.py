@@ -77,7 +77,7 @@ class ObjectDispatch(object):
 				if __debug__:
 					log.debug("Attempt made to descend into protected attribute: " + current, extra=dict(
 							dispatcher = dispatcher,
-							name = current,
+							current = current,
 						))
 				break  # Not being popped, this value will remain in the path.
 			
@@ -90,7 +90,7 @@ class ObjectDispatch(object):
 					log.debug("Retrieved attribute: " + current, extra=dict(
 							dispatcher = dispatcher,
 							source = obj,
-							name = current,
+							current = current,
 							value = repr(new),
 						))
 				
@@ -118,7 +118,7 @@ class ObjectDispatch(object):
 					dispatcher = dispatcher,
 					handler = repr(obj),
 					endpoint = callable(obj),
-					name = previous,
+					previous = previous,
 					attribute = current,
 				))
 		

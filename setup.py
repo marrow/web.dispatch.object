@@ -44,6 +44,8 @@ tests_require = [
 		'pytest-flakes',  # syntax validation
 		'pytest-cagoule',  # intelligent test execution
 		'pytest-spec',  # output formatting
+		'web.dispatch.object',
+		'web.dispatch.route',
 	]
 
 
