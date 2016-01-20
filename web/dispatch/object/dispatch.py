@@ -58,7 +58,7 @@ class ObjectDispatch(object):
 		
 		for previous, current in ipeek(path):  # Things can get hairy, so we need to track both this and the previous.
 			if isclass(obj):  # We instantate classes we encounter during dispatch.
-				obj = obj(context)
+				obj = obj() if context is None else obj(context)
 				if __debug__:
 					log.debug("Instantiated class during descent.", extra=dict(
 							dispatcher = dispatcher,
