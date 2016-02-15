@@ -175,7 +175,7 @@ these notes is extremely important to keep in mind:
   protection is enabled dispatch would stop and your ``__getattr__`` method would never be called when
   encountering protected path elements.
 * If a callable routine is encountered, it is considered the endpoint regardless of the presence of additional path
-  elements.
+  elements. This does not extend to classes with ``__call__`` methods, allowing mixed use in that situation.
 
 With those elements out of the way, we'll work up from the simplest possible example, a single function::
 
