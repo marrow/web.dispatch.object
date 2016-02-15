@@ -10,7 +10,7 @@ web.dispatch.object
 
 ..
 
-    |latestversion| |downloads| |masterstatus| |mastercover| |issuecount|
+    |latestversion| |ghtag| |downloads| |masterstatus| |mastercover| |masterreq| |ghwatch| |ghstar|
 
 
 
@@ -54,7 +54,7 @@ installed.
 Development Version
 -------------------
 
-    |developstatus| |developcover|
+    |developstatus| |developcover| |ghsince| |issuecount| |ghfork|
 
 Development takes place on `GitHub <https://github.com/>`_ in the 
 `web.dispatch.object <https://github.com/marrow/web.dispatch.object/>`_ project.  Issue tracking, documentation, and
@@ -279,32 +279,60 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER I
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
+.. |ghwatch| image:: https://img.shields.io/github/watchers/marrow/web.dispatch.object.svg?style=social&label=Watch
+    :target: https://github.com/marrow/web.dispatch.object/subscription
+    :alt: Subscribe to project activity on Github.
+
+.. |ghstar| image:: https://img.shields.io/github/stars/marrow/web.dispatch.object.svg?style=social&label=Star
+    :target: https://github.com/marrow/web.dispatch.object/subscription
+    :alt: Star this project on Github.
+
+.. |ghfork| image:: https://img.shields.io/github/forks/marrow/web.dispatch.object.svg?style=social&label=Fork
+    :target: https://github.com/marrow/web.dispatch.object/fork
+    :alt: Fork this project on Github.
+
 .. |masterstatus| image:: http://img.shields.io/travis/marrow/web.dispatch.object/master.svg?style=flat
-    :target: https://travis-ci.org/marrow/web.dispatch.object
-    :alt: Release Build Status
+    :target: https://travis-ci.org/marrow/web.dispatch.object/branches
+    :alt: Release build status.
+
+.. |mastercover| image:: http://img.shields.io/codecov/c/github/marrow/web.dispatch.object/master.svg?style=flat
+    :target: https://codecov.io/github/marrow/web.dispatch.object?branch=master
+    :alt: Release test coverage.
+
+.. |masterreq| image:: https://img.shields.io/requires/github/marrow/web.dispatch.object.svg
+    :target: https://requires.io/github/marrow/web.dispatch.object/requirements/?branch=master
+    :alt: Status of release dependencies.
 
 .. |developstatus| image:: http://img.shields.io/travis/marrow/web.dispatch.object/develop.svg?style=flat
-    :target: https://travis-ci.org/marrow/web.dispatch.object
-    :alt: Development Build Status
+    :target: https://travis-ci.org/marrow/web.dispatch.object/branches
+    :alt: Development build status.
+
+.. |developcover| image:: http://img.shields.io/codecov/c/github/marrow/web.dispatch.object/develop.svg?style=flat
+    :target: https://codecov.io/github/marrow/web.dispatch.object?branch=develop
+    :alt: Development test coverage.
+
+.. |developreq| image:: https://img.shields.io/requires/github/marrow/web.dispatch.object.svg
+    :target: https://requires.io/github/marrow/web.dispatch.object/requirements/?branch=develop
+    :alt: Status of development dependencies.
+
+.. |issuecount| image:: http://img.shields.io/github/issues-raw/marrow/web.dispatch.object.svg?style=flat
+    :target: https://github.com/marrow/web.dispatch.object/issues
+    :alt: Github Issues
+
+.. |ghsince| image:: https://img.shields.io/github/commits-since/marrow/web.dispatch.object/1.0.svg
+    :target: https://github.com/marrow/web.dispatch.object/commits/develop
+    :alt: Changes since last release.
+
+.. |ghtag| image:: https://img.shields.io/github/tag/marrow/web.dispatch.object.svg
+    :target: https://github.com/marrow/web.dispatch.object/tree/1.0
+    :alt: Latest Github tagged release.
 
 .. |latestversion| image:: http://img.shields.io/pypi/v/web.dispatch.object.svg?style=flat
     :target: https://pypi.python.org/pypi/web.dispatch.object
-    :alt: Latest Version
+    :alt: Latest released version.
 
 .. |downloads| image:: http://img.shields.io/pypi/dw/web.dispatch.object.svg?style=flat
     :target: https://pypi.python.org/pypi/web.dispatch.object
-    :alt: Downloads per Week
-
-.. |mastercover| image:: http://img.shields.io/coveralls/marrow/web.dispatch.object/master.svg?style=flat
-    :target: https://travis-ci.org/marrow/web.dispatch.object
-    :alt: Release Test Coverage
-
-.. |developcover| image:: http://img.shields.io/coveralls/marrow/web.dispatch.object/develop.svg?style=flat
-    :target: https://travis-ci.org/marrow/web.dispatch.object
-    :alt: Development Test Coverage
-
-.. |issuecount| image:: http://img.shields.io/github/issues/marrow/web.dispatch.object.svg?style=flat
-    :target: https://github.com/marrow/web.dispatch.object/issues
-    :alt: Github Issues
+    :alt: Downloads per week.
 
 .. |cake| image:: http://img.shields.io/badge/cake-lie-1b87fb.svg?style=flat
