@@ -319,7 +319,7 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
     :target: https://github.com/marrow/web.dispatch.object/issues
     :alt: Github Issues
 
-.. |ghsince| image:: https://img.shields.io/github/commits-since/marrow/web.dispatch.object/1.0.svg
+.. |ghsince| image:: https://img.shields.io/github/commits-since/marrow/web.dispatch.object/2.1.0.svg
     :target: https://github.com/marrow/web.dispatch.object/commits/develop
     :alt: Changes since last release.
 
