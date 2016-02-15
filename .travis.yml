@@ -19,7 +19,7 @@ env:
     - PYTHONOPTIMIZE=1
 
 install:
-  - travis_retry pip install --upgrade setuptools pip pytest
+  - travis_retry pip install --upgrade setuptools 'pip<8.0.0' pytest
   - travis_retry pip install tox tox-travis
   - travis_retry tox --notest -r
 
