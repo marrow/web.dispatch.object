@@ -324,7 +324,7 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
     :alt: Changes since last release.
 
 .. |ghtag| image:: https://img.shields.io/github/tag/marrow/web.dispatch.object.svg
-    :target: https://github.com/marrow/web.dispatch.object/tree/1.0
+    :target: https://github.com/marrow/web.dispatch.object/tree/2.1.0
     :alt: Latest Github tagged release.
 
 .. |latestversion| image:: http://img.shields.io/pypi/v/web.dispatch.object.svg?style=flat
