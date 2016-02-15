@@ -5,7 +5,7 @@
 from collections import deque
 
 
-def init(self, context):
+def init(self, context=None):
 	self._ctx = context
 
 

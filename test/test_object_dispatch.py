@@ -2,7 +2,7 @@
 
 from __future__ import unicode_literals
 
-import os
+# import os
 import warnings
 
 from web.dispatch.object import ObjectDispatch
@@ -17,7 +17,7 @@ dispatch = ObjectDispatch()
 promiscuous = ObjectDispatch(protect=False)
 
 
-assert 'TEST_PY_VER' in os.environ, "Python version undefined? Run via tox."
+# assert 'TEST_PY_VER' in os.environ, "Python version undefined? Run via tox."
 
 
 def test_nodefault_repr():

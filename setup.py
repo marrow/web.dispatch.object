@@ -18,8 +18,8 @@ from setuptools.command.test import test as TestCommand
 
 if sys.version_info < (2, 7):
 	raise SystemExit("Python 2.7 or later is required.")
-elif sys.version_info > (3, 0) and sys.version_info < (3, 2):
-	raise SystemExit("Python 3.2 or later is required.")
+elif sys.version_info > (3, 0) and sys.version_info < (3, 3):
+	raise SystemExit("Python 3.3 or later is required.")
 
 exec(open(os.path.join("web", "dispatch", "object", "release.py")).read())
 
@@ -42,10 +42,7 @@ tests_require = [
 		'pytest',  # test collector and extensible runner
 		'pytest-cov',  # coverage reporting
 		'pytest-flakes',  # syntax validation
-		'pytest-cagoule',  # intelligent test execution
 		'pytest-spec',  # output formatting
-		'web.dispatch.object',
-		'web.dispatch.route',
 	]
 
 
@@ -76,9 +73,9 @@ setup(
 			"Programming Language :: Python :: 3",
 			"Programming Language :: Python :: 3.3",
 			"Programming Language :: Python :: 3.4",
+			"Programming Language :: Python :: 3.5",
 			"Programming Language :: Python :: Implementation :: CPython",
 			"Programming Language :: Python :: Implementation :: PyPy",
-			"Topic :: Internet :: WWW/HTTP :: WSGI",
 			"Topic :: Software Development :: Libraries :: Python Modules",
 		],
 	
