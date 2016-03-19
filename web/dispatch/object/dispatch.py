@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 
 from inspect import isclass, isroutine
+from functools import partial
 
 from .util import nodefault, ipeek, str
 
@@ -99,7 +100,7 @@ class ObjectDispatch(object):
 			obj = new  # Continue processing the next level of path from this point.
 		
 		else:  # No path left to consume. Wherever we go, there we are. This handles the "empty path" case.
-			obj = obj(context) if isclass(obj) else obj
+			obj = (obj() if context is None else obj(context)) if isclass(obj) else obj
 			
 			if __debug__:
 				log.debug("Dispatch complete due to exhausted path.", extra=dict(
