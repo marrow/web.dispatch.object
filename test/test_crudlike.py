@@ -39,7 +39,7 @@ class TestCrudlikeCollection(object):
 		assert len(result) == 3
 		assert result[2][2] == True  # Endpoint reached.
 		assert isinstance(result[0][1], Root)  # Intermediate is Root instance.
-		assert isinstance(result[1][1], People)  # v is People instance.
+		assert isinstance(result[1][1], People)  # Intermediate is People instance.
 		assert isinstance(result[2][1], Person)  # Endpoint is Person instance.
 		assert result[2][1]() == "Hi, I'm GothAlice"
 	
@@ -48,7 +48,7 @@ class TestCrudlikeCollection(object):
 		assert len(result) == 4
 		assert result[3][2] == True  # Endpoint reached.
 		assert isinstance(result[0][1], Root)  # Intermediate is Root instance.
-		assert isinstance(result[1][1], People)  # v is People instance.
+		assert isinstance(result[1][1], People)  # Intermediate is People instance.
 		assert isinstance(result[2][1], Person)  # Endpoint is Person instance.
 		assert result[3][1]() == "I'm also GothAlice"
 		
