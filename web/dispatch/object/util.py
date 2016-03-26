@@ -1,9 +1,9 @@
 # encoding: utf-8
 
-try:  # pragma: cover py2
+try:
 	str = unicode
 	range = xrange
-except:  # pragma: cover py3
+except:
 	str = str
 	range = range
 

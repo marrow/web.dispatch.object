@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 from inspect import isclass, isroutine
-from functools import partial
 
 from .util import nodefault, ipeek, str
 
@@ -36,8 +35,8 @@ class ObjectDispatch(object):
 		if __debug__:
 			if not isinstance(path, deque):
 				warnings.warn(
-						"Your code uses auto-casting of paths to a deque; "
-						"this will explode gloriously if run in a production environment.",
+						"Your code is providing the path as a string; this will be cast to a deque in development but"
+						"will explode gloriously if run in a production environment.",
 						RuntimeWarning, stacklevel=1
 					)
 				
