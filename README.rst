@@ -2,7 +2,7 @@
 web.dispatch.object
 ===================
 
-    © 2009-2016 Alice Bevan-McGregor and contributors.
+    © 2009-2017 Alice Bevan-McGregor and contributors.
 
 ..
 
@@ -46,8 +46,8 @@ robust as `Vagrant <http://www.vagrantup.com>`_.
 If you add ``web.dispatch.object`` to the ``install_requires`` argument of the call to ``setup()`` in your
 application's ``setup.py`` file, this dispatcher will be automatically installed and made available when your own
 application or library is installed.  We recommend using "less than" version numbers to ensure there are no
-unintentional side-effects when updating.  Use ``web.dispatch.object<2.2`` to get all bugfixes for the current release,
-and ``web.dispatch.object<3.0`` to get bugfixes and feature updates while ensuring that large breaking changes are not
+unintentional side-effects when updating.  Use ``web.dispatch.object<3.1`` to get all bugfixes for the current release,
+and ``web.dispatch.object<4.0`` to get bugfixes and feature updates while ensuring that large breaking changes are not
 installed.
 
 
@@ -65,11 +65,11 @@ system.  If you have Git you can run the following to download and *link* the de
 runtime::
 
     git clone https://github.com/marrow/web.dispatch.object.git
-    (cd web.dispatch.object; python setup.py develop)
+    pip install -e 'web.dispatch.object[development]'
 
 You can then upgrade to the latest version at any time::
 
-    (cd web.dispatch.object; git pull; python setup.py develop)
+    (cd web.dispatch.object; git pull; pip install -e .)
 
 If you would like to make changes and contribute them back to the project, fork the GitHub project, make your changes,
 and submit a pull request.  This process is beyond the scope of this documentation; for more information see
@@ -239,6 +239,13 @@ Et cetera.
 Version History
 ===============
 
+Version 3.0
+-----------
+
+* Python 2 support removed and Python 2 specific code eliminated.
+* Updated to utilize Python 3 namespace packaging. **Critical Note**: This is not compatible with any Marrow package
+  that is backwards compatible with Python 2.
+
 Version 2.1
 -----------
 
@@ -263,7 +270,7 @@ web.dispatch.object has been released under the MIT Open Source license.
 The MIT License
 ---------------
 
-Copyright © 2009-2016 Alice Bevan-McGregor and contributors.
+Copyright © 2009-2017 Alice Bevan-McGregor and contributors.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 documentation files (the “Software”), to deal in the Software without restriction, including without limitation the
