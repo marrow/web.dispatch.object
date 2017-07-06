@@ -7,33 +7,13 @@ import os
 import sys
 import codecs
 
-
-try:
-	from setuptools.core import setup, find_packages
-except ImportError:
-	from setuptools import setup, find_packages
-
-from setuptools.command.test import test as TestCommand
+from setuptools import setup
 
 
-if sys.version_info < (2, 7):
-	raise SystemExit("Python 2.7 or later is required.")
-elif sys.version_info > (3, 0) and sys.version_info < (3, 2):
-	raise SystemExit("Python 3.2 or later is required.")
+if sys.version_info < (3, 3):
+	raise SystemExit("Python 3.3 or later is required.")
 
 exec(open(os.path.join("web", "dispatch", "object", "release.py")).read())
-
-
-class PyTest(TestCommand):
-	def finalize_options(self):
-		TestCommand.finalize_options(self)
-		
-		self.test_args = []
-		self.test_suite = True
-	
-	def run_tests(self):
-		import pytest
-		sys.exit(pytest.main(self.test_args))
 
 
 here = os.path.abspath(os.path.dirname(__file__))
@@ -42,7 +22,8 @@ tests_require = [
 		'pytest',  # test collector and extensible runner
 		'pytest-cov',  # coverage reporting
 		'pytest-flakes',  # syntax validation
-		'pytest-spec',  # output formatting
+		'pytest-catchlog',  # log capture
+		'pytest-isort',  # import ordering
 	]
 
 
@@ -53,13 +34,13 @@ setup(
 	description = description,
 	long_description = codecs.open(os.path.join(here, 'README.rst'), 'r', 'utf8').read(),
 	url = url,
-	download_url = 'https://warehouse.python.org/project/web.dispatch.object/',
+	download_url = 'https://pypi.org/project/web.dispatch.object/',
 	
 	author = author.name,
 	author_email = author.email,
 	
 	license = 'MIT',
-	keywords = '',
+	keywords = ['marrow', 'dispatch', 'object dispatch', 'endpoint discovery'],
 	classifiers = [
 			"Development Status :: 5 - Production/Stable",
 			"Environment :: Console",
@@ -68,43 +49,40 @@ setup(
 			"License :: OSI Approved :: MIT License",
 			"Operating System :: OS Independent",
 			"Programming Language :: Python",
-			"Programming Language :: Python :: 2",
-			"Programming Language :: Python :: 2.7",
 			"Programming Language :: Python :: 3",
-			"Programming Language :: Python :: 3.2",
 			"Programming Language :: Python :: 3.3",
 			"Programming Language :: Python :: 3.4",
 			"Programming Language :: Python :: 3.5",
+			"Programming Language :: Python :: 3.6",
 			"Programming Language :: Python :: Implementation :: CPython",
 			"Programming Language :: Python :: Implementation :: PyPy",
 			"Topic :: Software Development :: Libraries :: Python Modules",
 		],
 	
-	packages = find_packages(exclude=['bench', 'docs', 'example', 'test']),
+	packages = ['web.dispatch.object'],
 	include_package_data = True,
-	namespace_packages = [
-			'web',  # primary namespace
-			'web.dispatch',  # extensible dispatch mechanisms
-		],
+	package_data = {'': ['README.rst', 'LICENSE.txt']},
+	zip_safe = False,
+	
+	# Dependency Declaration
+	
+	setup_requires = [
+			'pytest-runner',
+		] if {'pytest', 'test', 'ptr'}.intersection(sys.argv) else [],
+	
+	install_requires = [],
+	
+	extras_require = dict(
+			development = tests_require + ['pre-commit'],  # Development-time dependencies.
+		),
+	
+	tests_require = tests_require,
+	
+	# Plugin Registration
 	
 	entry_points = {
 			'web.dispatch': [
 					'object = web.dispatch.object:ObjectDispatch',
 				],
 		},
-	
-	install_requires = [],
-	
-	extras_require = dict(
-			development = tests_require,
-		),
-	
-	tests_require = tests_require,
-	
-	dependency_links = [],
-	
-	zip_safe = True,
-	cmdclass = dict(
-			test = PyTest,
-		)
 )
