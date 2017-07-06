@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 from inspect import isclass, isroutine
 
-from .util import nodefault, ipeek, str
+from .util import nodefault, ipeek
 
 if __debug__:
 	import warnings
@@ -14,8 +14,7 @@ if __debug__:
 log = __import__('logging').getLogger(__name__)
 
 
-
-class ObjectDispatch(object):
+class ObjectDispatch:
 	__slots__ = ['protect']
 	
 	def __init__(self, protect=True):

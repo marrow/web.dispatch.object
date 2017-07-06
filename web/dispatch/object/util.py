@@ -1,13 +1,5 @@
 # encoding: utf-8
 
-try:
-	str = unicode
-	range = xrange
-except:
-	str = str
-	range = range
-
-
 class NoDefault(object):
 	__slots__ = []
 	

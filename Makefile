@@ -20,7 +20,7 @@ test: develop
 	./setup.py test
 
 release:
-	./setup.py register sdist bdist_wheel upload ${RELEASE_OPTIONS}
+	./setup.py sdist bdist_wheel upload ${RELEASE_OPTIONS}
 	@echo -e "\nView online at: https://pypi.python.org/pypi/${PROJECT} or https://pypi.org/project/${PROJECT}/"
 	@echo -e "Remember to make a release announcement and upload contents of dist/ folder as a Release on GitHub.\n"
 
