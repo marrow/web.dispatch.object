@@ -24,6 +24,7 @@ tests_require = [
 		'pytest-flakes',  # syntax validation
 		'pytest-catchlog',  # log capture
 		'pytest-isort',  # import ordering
+		'pytest-pudb',  # interactive debugging
 	]
 
 

@@ -1,28 +1,12 @@
 from inspect import isclass, isbuiltin, isfunction, isroutine, ismethod, getmembers, signature
 
-from ..core import Crumb, nodefault, ipeek, prepare_path
+from ..core import Crumb, nodefault, ipeek, prepare_path, opts
 
 if __debug__:
 	import warnings
 	from collections import deque
 	
 	log = __import__('logging').getLogger(__name__)
-
-
-def opts(obj):
-	if isclass(obj):
-		if '__call__' in dir(obj):
-			return opts(obj.__call__)
-		else:
-			return
-	
-	if callable(obj):
-		sig = signature(obj)
-		
-		if len(sig.parameters) > 1:
-			return {'GET', 'POST'}
-	
-	return {'GET'}
 
 
 class ObjectDispatch:
@@ -38,7 +22,6 @@ class ObjectDispatch:
 	
 	def __repr__(self):
 		return "ObjectDispatch(0x{id}, protect={self.protect!r})".format(id=id(self), self=self)
-	
 	
 	def trace(self, context, obj, recursive=False, root=None):
 		"""Enumerate the children of the given object, as would be visible and utilized by dispatch."""
@@ -96,7 +79,7 @@ class ObjectDispatch:
 				if __debug__:
 					log.debug("Instantiated class during descent.", extra=dict(LE, obj=obj))
 				
-				yield Crumb(self, origin, handler=obj)
+				# yield Crumb(self, origin, handler=obj)
 			
 			if protect:
 				if isbuiltin(obj):  # Non-Python (e.g. C extension or core built-in methods) routines are dangerous.
@@ -153,6 +136,6 @@ class ObjectDispatch:
 				))
 		
 		if callable(obj):  # We don't reeeeeally care what type of callable, here...
-			yield Crumb(self, origin, path=previous, endpoint=True, handler=obj, options={'GET', 'POST'})
+			yield Crumb(self, origin, path=previous, endpoint=True, handler=obj, options=opts(obj))
 		else:
-			yield Crumb(self, origin, path=previous, endpoint=False, handler=obj, options={'GET'})
+			yield Crumb(self, origin, path=previous, endpoint=False, handler=obj, options=opts(obj))
