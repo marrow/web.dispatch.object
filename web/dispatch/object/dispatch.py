@@ -11,7 +11,7 @@ if __debug__:
 
 def opts(obj):
 	if isclass(obj):
-		if hasattr(obj, '__call__'):
+		if '__call__' in dir(obj):
 			return opts(obj.__call__)
 		else:
 			return
