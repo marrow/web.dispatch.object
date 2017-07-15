@@ -1,6 +1,3 @@
-# encoding: utf-8
-
-
 class Person(object):
 	def __init__(self, username):
 		self._username = username
@@ -19,7 +16,8 @@ class People(object):
 	def __call__(self):
 		return "I'm all people."
 	
-	def __getattr__(self, username, **kw):
+	def __getattr__(self, username) -> Person:
+		if username.startswith('__'): raise AttributeError()
 		return Person(username)
 
 

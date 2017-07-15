@@ -5,8 +5,8 @@ from __future__ import unicode_literals
 # import os
 import warnings
 
+from web.dispatch.core import nodefault
 from web.dispatch.object import ObjectDispatch
-from web.dispatch.object.util import nodefault
 
 from sample import path, function, Simple, CallableShallow, CallableDeep, CallableMixed
 

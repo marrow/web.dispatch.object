@@ -1,7 +1,3 @@
-# encoding: utf-8
-
-from __future__ import unicode_literals
-
 from collections import deque
 from web.dispatch.object import ObjectDispatch
 
@@ -51,3 +47,69 @@ class TestCrudlikeCollection(object):
 		assert isinstance(result[1].handler, People)  # Intermediate is People instance.
 		assert isinstance(result[2].handler, Person)  # Endpoint is Person instance.
 		assert result[3].handler() == "I'm also GothAlice"
+
+
+class TestCrudlikeTraces(object):
+	def test_root_shallow(self):
+		trace = list(dispatch.trace(None, Root))
+		
+		assert len(trace) == 1  # Only one accessible child object.
+		assert str(trace[0].path) == 'user'
+		assert trace[0].endpoint == False  # A shallow search can't tell that this is a valid endpoint.
+	
+	def test_root_instance_shallow(self):
+		trace = list(dispatch.trace(None, Root()))
+		
+		assert len(trace) == 1  # Only one accessible child object.
+		assert str(trace[0].path) == 'user'
+		assert trace[0].endpoint == False  # A shallow search can't tell that this is a valid endpoint.
+	
+	def test_people_shallow(self):
+		trace = list(dispatch.trace(None, People))
+		
+		assert len(trace) == 2  # Only one accessible child object.
+		assert trace[0].path is None
+		assert trace[0].endpoint == True
+		assert trace[0].handler is People
+		
+		assert str(trace[1].path) == '{username}'
+		assert trace[1].endpoint == False
+		assert trace[1].handler is Person
+	
+	def test_people_instance_shallow(self):
+		inst = People()
+		trace = list(dispatch.trace(None, inst))
+		
+		assert len(trace) == 2  # Only one accessible child object.
+		assert trace[0].path is None
+		assert trace[0].endpoint == True
+		assert trace[0].handler is inst
+		
+		assert str(trace[1].path) == '{username}'
+		assert trace[1].endpoint == False
+		assert trace[1].handler is Person
+	
+	def test_person_shallow(self):
+		trace = list(dispatch.trace(None, Person))
+		
+		assert len(trace) == 2  # Only one accessible child object.
+		assert trace[0].path is None
+		assert trace[0].endpoint == True
+		assert trace[0].handler is Person
+		
+		assert str(trace[1].path) == 'foo'
+		assert trace[1].endpoint == True
+		assert trace[1].handler is Person.foo
+	
+	def test_person_instance_shallow(self):
+		inst = Person('GothAlice')
+		trace = list(dispatch.trace(None, inst))
+		
+		assert len(trace) == 2  # Only one accessible child object.
+		assert trace[0].path is None
+		assert trace[0].endpoint == True
+		assert trace[0].handler is inst
+		
+		assert str(trace[1].path) == 'foo'
+		assert trace[1].endpoint == True
+		assert trace[1].handler is Person.foo  # Should this be inst.foo?
