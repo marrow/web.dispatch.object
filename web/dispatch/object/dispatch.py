@@ -9,7 +9,7 @@ if __debug__:
 	log = __import__('logging').getLogger(__name__)
 
 
-def opts(self, obj):
+def opts(obj):
 	if isclass(obj):
 		if hasattr(obj, '__call__'):
 			return opts(obj.__call__)
@@ -46,7 +46,7 @@ class ObjectDispatch:
 		if not root:
 			root = obj
 		
-		if callable(obj):
+		if callable(obj) and not isclass(obj):
 			yield Crumb(self, root, endpoint=True, handler=obj, options=opts(obj))
 			return
 		
