@@ -1,11 +1,8 @@
-from inspect import isclass, isbuiltin, isfunction, isroutine, ismethod, getmembers, signature
+from inspect import isclass, isbuiltin, isroutine, getmembers, signature
 
 from ..core import Crumb, nodefault, ipeek, prepare_path, opts
 
 if __debug__:
-	import warnings
-	from collections import deque
-	
 	log = __import__('logging').getLogger(__name__)
 
 
@@ -86,18 +83,10 @@ class ObjectDispatch:
 				# yield Crumb(self, origin, handler=obj)
 			
 			if protect:
-				if isbuiltin(obj):  # Non-Python (e.g. C extension or core built-in methods) routines are dangerous.
+				if current[0] == '_' or isbuiltin(obj):
 					if __debug__:
-						log.debug("Attempt made to access a protected non-Python callable routine.", extra=dict(
-								dispatcher = dispatcher,
+						log.debug("Attempt made to access a protected attribute: " + current, extra=dict(LE,
 								handler = obj,
-							))
-					break  # Not being popped, this value will remain in the path.
-				
-				elif current.startswith('_'):  # We disallow private attribute access.
-					if __debug__:
-						log.debug("Attempt made to descend into protected attribute: " + current, extra=dict(
-								dispatcher = dispatcher,
 								current = current,
 							))
 					break  # Not being popped, this value will remain in the path.
