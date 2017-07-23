@@ -20,11 +20,10 @@ class ObjectDispatch:
 	def __repr__(self):
 		return "ObjectDispatch(0x{id}, protect={self.protect!r})".format(id=id(self), self=self)
 	
-	def trace(self, context, obj, recursive=False, root=None):
+	def trace(self, context, obj):
 		"""Enumerate the children of the given object, as would be visible and utilized by dispatch."""
 		
-		if not root:
-			root = obj
+		root = obj
 		
 		if isroutine(obj):
 			yield Crumb(self, root, endpoint=True, handler=obj, options=opts(obj))
@@ -55,12 +54,8 @@ class ObjectDispatch:
 			if self.protect and (name[0] == '_' or isbuiltin(attr)):
 				continue
 			
-			classy = isclass(attr)
-			
-			yield Crumb(self, root, name, endpoint=callable(attr) and not classy, handler=attr, options=opts(attr))
-			
-			if recursive and classy:
-				yield from self.trace(context, attr, True, root)
+			yield Crumb(self, root, name,
+					endpoint=callable(attr) and not isclass(attr), handler=attr, options=opts(attr))
 	
 	def __call__(self, context, obj, path):
 		protect = self.protect
