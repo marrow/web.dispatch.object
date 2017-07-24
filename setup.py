@@ -72,7 +72,7 @@ setup(
 			'pytest-runner',
 		] if {'pytest', 'test', 'ptr'}.intersection(sys.argv) else [],
 	
-	install_requires = [],
+	install_requires = ['web.dispatch~=3.0.0'],
 	
 	extras_require = dict(
 			development = tests_require + ['pre-commit'],  # Development-time dependencies.
