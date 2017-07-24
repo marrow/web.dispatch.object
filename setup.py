@@ -13,6 +13,8 @@ from setuptools import setup
 if sys.version_info < (3, 3):
 	raise SystemExit("Python 3.3 or later is required.")
 
+version = description = url = author = None
+
 exec(open(os.path.join("web", "dispatch", "object", "release.py")).read())
 
 
@@ -24,7 +26,6 @@ tests_require = [
 		'pytest-flakes',  # syntax validation
 		'pytest-catchlog',  # log capture
 		'pytest-isort',  # import ordering
-		'pytest-pudb',  # interactive debugging
 	]
 
 

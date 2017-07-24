@@ -14,7 +14,7 @@ env:
     - PYTHONOPTIMIZE=1
 
 install:
-  - travis_retry pip install --upgrade setuptools pytest
+  - travis_retry pip install -U setuptools pip pytest
   - pip install -e '.[development]'
 
 script:
@@ -30,7 +30,7 @@ notifications:
     use_notice: true
     skip_join: true
     on_success: change
-    on_failure: always
+    on_failure: change
     template:
       - "%{repository_slug}:%{branch}@%{commit} %{message}"
       - "Duration: %{duration} - Details: %{build_url}"
