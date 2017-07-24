@@ -73,7 +73,7 @@ setup(
 		] if {'pytest', 'test', 'ptr'}.intersection(sys.argv) else [],
 	
 	install_requires = [
-			'web.dispatch~=3.0.0',  # Core dispatch helpers.
+			'web.dispatch~=3.0.1',  # Core dispatch helpers.
 			'pathlib; python_version < "3.4"',  # Path manipulation utility lib; builtin in 3.4 and 3.5.
 		],
 	
