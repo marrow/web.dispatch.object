@@ -51,7 +51,7 @@ class ObjectDispatch:
 				yield Crumb(self, root, None, endpoint=True, handler=obj)
 				continue
 			
-			if self.protect and (name[0] == '_' or isbuiltin(attr)):
+			if self.protect and name[0] == '_':
 				continue
 			
 			yield Crumb(self, root, name,

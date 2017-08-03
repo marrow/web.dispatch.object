@@ -5,7 +5,8 @@ from __future__ import unicode_literals
 from web.dispatch.core import nodefault
 from web.dispatch.object import ObjectDispatch
 
-from sample import path, function, Simple, CallableShallow, CallableDeep, CallableMixed
+from sample import path, function, Simple, ClassDynamicAttribute, FunctionDynamicAttribute, CallableShallow, \
+		CallableDeep, CallableMixed, AnonymousDynamicAttribute
 
 
 # We pre-create these for the sake of convienence.
@@ -20,7 +21,7 @@ def test_nodefault_repr():
 
 
 
-class TestDispatchPathCasting(object):
+class TestDispatchPathCasting:
 	def test_string_value(self):
 		result = list(dispatch(None, function, '/'))
 		
@@ -32,7 +33,7 @@ class TestDispatchPathCasting(object):
 		assert len(result) == 1
 
 
-class TestFunctionDispatch(object):
+class TestFunctionDispatch:
 	def test_root_path_resolves_to_function(self):
 		result = list(dispatch(None, function, path('/')))
 		assert len(result) == 1
@@ -46,9 +47,50 @@ class TestFunctionDispatch(object):
 		assert result[0].path == None
 		assert result[0].handler == function
 		assert result[0].endpoint == True
+	
+	def test_trace_early_exit(self):
+		result = list(dispatch.trace(None, function))
+		assert len(result) == 1
+		
+		result = result[0]
+		assert result.endpoint
+		assert result.handler is function
+		assert result.options == {'GET', 'POST'}
 
 
-class TestSimpleDispatch(object):
+class TestDynamicAttribute:
+	def test_dynamic_anonymous(self):
+		result = list(dispatch.trace(None, AnonymousDynamicAttribute))
+		assert len(result) == 1
+		
+		result = result[0]
+		assert not result.endpoint
+		assert str(result.path) == '{name}'
+		assert result.handler is AnonymousDynamicAttribute.__getattr__
+		assert result.options is None
+		
+	def test_dynamic_class(self):
+		result = list(dispatch.trace(None, FunctionDynamicAttribute))
+		assert len(result) == 1
+		
+		result = result[0]
+		assert result.endpoint
+		assert str(result.path) == '{name}'
+		assert result.handler is function
+		assert result.options == {'GET', 'POST'}
+	
+	def test_dynamic_function(self):
+		result = list(dispatch.trace(None, ClassDynamicAttribute))
+		assert len(result) == 1
+		
+		result = result[0]
+		assert not result.endpoint
+		assert str(result.path) == '{name}'
+		assert result.handler is Simple
+		assert result.options is None
+
+
+class TestSimpleDispatch:
 	def test_protected_init_method(self):
 		result = list(dispatch(None, Simple, path('/__init__')))
 		assert len(result) == 1
@@ -142,7 +184,7 @@ class TestSimpleDispatch(object):
 		assert result[3].endpoint == True
 
 
-class TestCallableShallowDispatch(object):
+class TestCallableShallowDispatch:
 	def test_root_path_resolves_to_instance(self):
 		result = list(dispatch(None, CallableShallow, path('/')))
 		assert len(result) == 1
@@ -160,7 +202,7 @@ class TestCallableShallowDispatch(object):
 		assert result[0].endpoint == True
 
 
-class TestCallableDeepDispatch(object):
+class TestCallableDeepDispatch:
 	'''
 	class CallableDeep:
 	__init__ = init
@@ -232,7 +274,7 @@ class TestCallableDeepDispatch(object):
 		assert result[2].endpoint == True
 
 
-class TestCallableMixedDispatch(object):
+class TestCallableMixedDispatch:
 	'''
 	class CallableMixed:
 	__init__ = init
