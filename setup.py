@@ -42,7 +42,7 @@ setup(
 	author_email = author.email,
 	
 	license = 'MIT',
-	keywords = ['marrow', 'dispatch', 'object dispatch', 'endpoint discovery'],
+	keywords = ['marrow', 'dispatch', 'web.dispatch', 'object dispatch', 'endpoint discovery', 'WebCore'],
 	classifiers = [
 			"Development Status :: 5 - Production/Stable",
 			"Environment :: Console",
