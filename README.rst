@@ -2,7 +2,7 @@
 web.dispatch.object
 ===================
 
-    © 2009-2017 Alice Bevan-McGregor and contributors.
+    © 2009-2019 Alice Bevan-McGregor and contributors.
 
 ..
 
@@ -270,7 +270,7 @@ web.dispatch.object has been released under the MIT Open Source license.
 The MIT License
 ---------------
 
-Copyright © 2009-2017 Alice Bevan-McGregor and contributors.
+Copyright © 2009-2019 Alice Bevan-McGregor and contributors.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 documentation files (the “Software”), to deal in the Software without restriction, including without limitation the
