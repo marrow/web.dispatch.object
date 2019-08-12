@@ -112,4 +112,4 @@ class TestCrudlikeTraces(object):
 		
 		assert str(trace[1].path) == 'foo'
 		assert trace[1].endpoint == True
-		assert trace[1].handler is Person.foo  # Should this be inst.foo?
+		assert trace[1].handler == inst.foo
