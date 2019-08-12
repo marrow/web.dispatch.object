@@ -1,4 +1,4 @@
-from inspect import isclass, isbuiltin, isroutine, getmembers, signature
+from inspect import isclass, ismethod, isbuiltin, isroutine, getmembers, signature
 
 from ..core import Crumb, nodefault, ipeek, prepare_path, opts
 
@@ -37,8 +37,12 @@ class ObjectDispatch:
 		for name, attr in getmembers(obj):
 			if name == '__getattr__':
 				sig = signature(attr)
-				path = '{' + list(sig.parameters.keys())[1] + '}'
 				reta = sig.return_annotation
+				
+				if ismethod(attr):
+					path = '{' + list(sig.parameters.keys())[0] + '}'
+				else:
+					path = '{' + list(sig.parameters.keys())[1] + '}'
 				
 				if reta is not sig.empty:
 					if callable(reta) and not isclass(reta):
