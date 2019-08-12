@@ -6,7 +6,7 @@ from pathlib import Path
 
 
 if python_version < (3, 6):
-	raise SystemExit("Python 3.3 or later is required.")
+	raise SystemExit("Python 3.6 or later is required.")
 
 here = Path(__file__).resolve().parent
 version = description = url = author = None  # Populated by the next line.
