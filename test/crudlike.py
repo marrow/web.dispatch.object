@@ -1,4 +1,4 @@
-class Person(object):
+class Person:
 	def __init__(self, username):
 		self._username = username
 	
@@ -9,7 +9,7 @@ class Person(object):
 		return "I'm also " + self._username
 
 
-class People(object):
+class People:
 	def __init__(self, context=None):
 		self._ctx = context
 	
@@ -21,7 +21,7 @@ class People(object):
 		return Person(username)
 
 
-class Root(object):
+class Root:
 	def __init__(self, context=None):
 		self._ctx = context
 	
