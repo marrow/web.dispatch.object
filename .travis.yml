@@ -3,7 +3,10 @@ sudo: false
 
 python:
   - "pypy3"
+  - "3.4"
+  - "3.5"
   - "3.6"
+  - "3.7"
 
 matrix:
   include:
