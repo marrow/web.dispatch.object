@@ -17,8 +17,10 @@ def function(context, *args):
 	return 'function /' + '/'.join(args)
 
 
+
 class Simple:
 	_protected = True
+	also_protected = str
 	__init__ = init
 	static = "foo"
 	
@@ -32,11 +34,32 @@ class Simple:
 				return "baz"
 
 
+class AnonymousDynamicAttribute:
+	def __getattr__(self, name):
+		def inner():
+			return "name:" + name
+		
+		return inner
+
+
+class FunctionDynamicAttribute:
+	def __getattr__(self, name) -> function:
+		return function  # often partial'd
+
+
+class ClassDynamicAttribute:
+	def __getattr__(self, name) -> Simple:
+		return Simple(self._cls)
+
+
 class CallableShallow:
 	__init__ = init
 	
 	def __call__(self, *args):
 		return '/' + '/'.join(args)
+
+
+
 
 
 class CallableDeep:

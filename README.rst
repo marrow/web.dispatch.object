@@ -2,7 +2,7 @@
 web.dispatch.object
 ===================
 
-    © 2009-2016 Alice Bevan-McGregor and contributors.
+    © 2009-2019 Alice Bevan-McGregor and contributors.
 
 ..
 
@@ -10,7 +10,7 @@ web.dispatch.object
 
 ..
 
-    |latestversion| |downloads| |masterstatus| |mastercover| |issuecount|
+    |latestversion| |ghtag| |downloads| |masterstatus| |mastercover| |masterreq| |ghwatch| |ghstar|
 
 
 
@@ -46,15 +46,15 @@ robust as `Vagrant <http://www.vagrantup.com>`_.
 If you add ``web.dispatch.object`` to the ``install_requires`` argument of the call to ``setup()`` in your
 application's ``setup.py`` file, this dispatcher will be automatically installed and made available when your own
 application or library is installed.  We recommend using "less than" version numbers to ensure there are no
-unintentional side-effects when updating.  Use ``web.dispatch.object<2.2`` to get all bugfixes for the current release,
-and ``web.dispatch.object<3.0`` to get bugfixes and feature updates while ensuring that large breaking changes are not
+unintentional side-effects when updating.  Use ``web.dispatch.object<3.1`` to get all bugfixes for the current release,
+and ``web.dispatch.object<4.0`` to get bugfixes and feature updates while ensuring that large breaking changes are not
 installed.
 
 
 Development Version
 -------------------
 
-    |developstatus| |developcover|
+    |developstatus| |developcover| |ghsince| |issuecount| |ghfork|
 
 Development takes place on `GitHub <https://github.com/>`_ in the 
 `web.dispatch.object <https://github.com/marrow/web.dispatch.object/>`_ project.  Issue tracking, documentation, and
@@ -65,11 +65,11 @@ system.  If you have Git you can run the following to download and *link* the de
 runtime::
 
     git clone https://github.com/marrow/web.dispatch.object.git
-    (cd web.dispatch.object; python setup.py develop)
+    pip install -e 'web.dispatch.object[development]'
 
 You can then upgrade to the latest version at any time::
 
-    (cd web.dispatch.object; git pull; python setup.py develop)
+    (cd web.dispatch.object; git pull; pip install -e .)
 
 If you would like to make changes and contribute them back to the project, fork the GitHub project, make your changes,
 and submit a pull request.  This process is beyond the scope of this documentation; for more information see
@@ -239,6 +239,13 @@ Et cetera.
 Version History
 ===============
 
+Version 3.0
+-----------
+
+* Python 2 support removed and Python 2 specific code eliminated.
+* Updated to utilize Python 3 namespace packaging. **Critical Note**: This is not compatible with any Marrow package
+  that is backwards compatible with Python 2.
+
 Version 2.1
 -----------
 
@@ -263,7 +270,7 @@ web.dispatch.object has been released under the MIT Open Source license.
 The MIT License
 ---------------
 
-Copyright © 2009-2016 Alice Bevan-McGregor and contributors.
+Copyright © 2009-2019 Alice Bevan-McGregor and contributors.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 documentation files (the “Software”), to deal in the Software without restriction, including without limitation the
@@ -279,32 +286,60 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER I
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
+.. |ghwatch| image:: https://img.shields.io/github/watchers/marrow/web.dispatch.object.svg?style=social&label=Watch
+    :target: https://github.com/marrow/web.dispatch.object/subscription
+    :alt: Subscribe to project activity on Github.
+
+.. |ghstar| image:: https://img.shields.io/github/stars/marrow/web.dispatch.object.svg?style=social&label=Star
+    :target: https://github.com/marrow/web.dispatch.object/subscription
+    :alt: Star this project on Github.
+
+.. |ghfork| image:: https://img.shields.io/github/forks/marrow/web.dispatch.object.svg?style=social&label=Fork
+    :target: https://github.com/marrow/web.dispatch.object/fork
+    :alt: Fork this project on Github.
+
 .. |masterstatus| image:: http://img.shields.io/travis/marrow/web.dispatch.object/master.svg?style=flat
-    :target: https://travis-ci.org/marrow/web.dispatch.object
-    :alt: Release Build Status
+    :target: https://travis-ci.org/marrow/web.dispatch.object/branches
+    :alt: Release build status.
+
+.. |mastercover| image:: http://img.shields.io/codecov/c/github/marrow/web.dispatch.object/master.svg?style=flat
+    :target: https://codecov.io/github/marrow/web.dispatch.object?branch=master
+    :alt: Release test coverage.
+
+.. |masterreq| image:: https://img.shields.io/requires/github/marrow/web.dispatch.object.svg
+    :target: https://requires.io/github/marrow/web.dispatch.object/requirements/?branch=master
+    :alt: Status of release dependencies.
 
 .. |developstatus| image:: http://img.shields.io/travis/marrow/web.dispatch.object/develop.svg?style=flat
-    :target: https://travis-ci.org/marrow/web.dispatch.object
-    :alt: Development Build Status
+    :target: https://travis-ci.org/marrow/web.dispatch.object/branches
+    :alt: Development build status.
+
+.. |developcover| image:: http://img.shields.io/codecov/c/github/marrow/web.dispatch.object/develop.svg?style=flat
+    :target: https://codecov.io/github/marrow/web.dispatch.object?branch=develop
+    :alt: Development test coverage.
+
+.. |developreq| image:: https://img.shields.io/requires/github/marrow/web.dispatch.object.svg
+    :target: https://requires.io/github/marrow/web.dispatch.object/requirements/?branch=develop
+    :alt: Status of development dependencies.
+
+.. |issuecount| image:: http://img.shields.io/github/issues-raw/marrow/web.dispatch.object.svg?style=flat
+    :target: https://github.com/marrow/web.dispatch.object/issues
+    :alt: Github Issues
+
+.. |ghsince| image:: https://img.shields.io/github/commits-since/marrow/web.dispatch.object/2.1.0.svg
+    :target: https://github.com/marrow/web.dispatch.object/commits/develop
+    :alt: Changes since last release.
+
+.. |ghtag| image:: https://img.shields.io/github/tag/marrow/web.dispatch.object.svg
+    :target: https://github.com/marrow/web.dispatch.object/tree/2.1.0
+    :alt: Latest Github tagged release.
 
 .. |latestversion| image:: http://img.shields.io/pypi/v/web.dispatch.object.svg?style=flat
     :target: https://pypi.python.org/pypi/web.dispatch.object
-    :alt: Latest Version
+    :alt: Latest released version.
 
 .. |downloads| image:: http://img.shields.io/pypi/dw/web.dispatch.object.svg?style=flat
     :target: https://pypi.python.org/pypi/web.dispatch.object
-    :alt: Downloads per Week
-
-.. |mastercover| image:: http://img.shields.io/coveralls/marrow/web.dispatch.object/master.svg?style=flat
-    :target: https://travis-ci.org/marrow/web.dispatch.object
-    :alt: Release Test Coverage
-
-.. |developcover| image:: http://img.shields.io/coveralls/marrow/web.dispatch.object/develop.svg?style=flat
-    :target: https://travis-ci.org/marrow/web.dispatch.object
-    :alt: Development Test Coverage
-
-.. |issuecount| image:: http://img.shields.io/github/issues/marrow/web.dispatch.object.svg?style=flat
-    :target: https://github.com/marrow/web.dispatch.object/issues
-    :alt: Github Issues
+    :alt: Downloads per week.
 
 .. |cake| image:: http://img.shields.io/badge/cake-lie-1b87fb.svg?style=flat

@@ -1,48 +1,22 @@
-#!/usr/bin/env python
-# encoding: utf-8
+#!/usr/bin/env python3
 
-from __future__ import print_function
-
-import os
-import sys
-import codecs
+from setuptools import setup
+from sys import argv, version_info as python_version
+from pathlib import Path
 
 
-try:
-	from setuptools.core import setup, find_packages
-except ImportError:
-	from setuptools import setup, find_packages
+if python_version < (3, 6):
+	raise SystemExit("Python 3.3 or later is required.")
 
-from setuptools.command.test import test as TestCommand
-
-
-if sys.version_info < (2, 7):
-	raise SystemExit("Python 2.7 or later is required.")
-elif sys.version_info > (3, 0) and sys.version_info < (3, 2):
-	raise SystemExit("Python 3.2 or later is required.")
-
-exec(open(os.path.join("web", "dispatch", "object", "release.py")).read())
-
-
-class PyTest(TestCommand):
-	def finalize_options(self):
-		TestCommand.finalize_options(self)
-		
-		self.test_args = []
-		self.test_suite = True
-	
-	def run_tests(self):
-		import pytest
-		sys.exit(pytest.main(self.test_args))
-
-
-here = os.path.abspath(os.path.dirname(__file__))
+here = Path(__file__).resolve().parent
+version = description = url = author = None  # Populated by the next line.
+exec((here / "web" / "dispatch" / "object" / "release.py").read_text('utf-8'))
 
 tests_require = [
 		'pytest',  # test collector and extensible runner
 		'pytest-cov',  # coverage reporting
 		'pytest-flakes',  # syntax validation
-		'pytest-spec',  # output formatting
+		'pytest-isort',  # import ordering
 	]
 
 
@@ -51,15 +25,22 @@ setup(
 	version = version,
 	
 	description = description,
-	long_description = codecs.open(os.path.join(here, 'README.rst'), 'r', 'utf8').read(),
+	long_description = (here / 'README.rst').read_text('utf-8'),
 	url = url,
-	download_url = 'https://warehouse.python.org/project/web.dispatch.object/',
+	download_url = 'https://pypi.org/project/web.dispatch.object/releases',
 	
 	author = author.name,
 	author_email = author.email,
 	
 	license = 'MIT',
-	keywords = '',
+	keywords = [
+			'marrow',
+			'dispatch',
+			'web.dispatch',
+			'object dispatch',
+			'endpoint discovery',
+			'WebCore'
+		],
 	classifiers = [
 			"Development Status :: 5 - Production/Stable",
 			"Environment :: Console",
@@ -68,43 +49,48 @@ setup(
 			"License :: OSI Approved :: MIT License",
 			"Operating System :: OS Independent",
 			"Programming Language :: Python",
-			"Programming Language :: Python :: 2",
-			"Programming Language :: Python :: 2.7",
 			"Programming Language :: Python :: 3",
-			"Programming Language :: Python :: 3.2",
-			"Programming Language :: Python :: 3.3",
-			"Programming Language :: Python :: 3.4",
-			"Programming Language :: Python :: 3.5",
+			"Programming Language :: Python :: 3.6",
+			"Programming Language :: Python :: 3.7",
+			"Programming Language :: Python :: 3.8",
 			"Programming Language :: Python :: Implementation :: CPython",
 			"Programming Language :: Python :: Implementation :: PyPy",
 			"Topic :: Software Development :: Libraries :: Python Modules",
 		],
 	
-	packages = find_packages(exclude=['bench', 'docs', 'example', 'test']),
+	project_urls = {
+			"Repository": "https://github.com/marrow/web.dispatch.object/",
+			"Documentation": "https://github.com/marrow/web.dispatch.object/#readme",
+			"Issue Tracker": "https://github.com/marrow/web.dispatch.object/issues",
+			"Funding": "https://www.patreon.com/GothAlice",
+		},
+	
+	packages = ('web.dispatch.object', ),
 	include_package_data = True,
-	namespace_packages = [
-			'web',  # primary namespace
-			'web.dispatch',  # extensible dispatch mechanisms
+	package_data = {'': ['README.rst', 'LICENSE.txt']},
+	zip_safe = False,
+	
+	python_requires = '~=3.6',
+	
+	setup_requires = [
+			'pytest-runner',
+		] if {'pytest', 'test', 'ptr'}.intersection(argv) else [],
+	
+	install_requires = [
+			'web.dispatch~=3.0.1',  # Core dispatch helpers.
 		],
+	
+	extras_require = dict(
+			development = tests_require + ['pre-commit'],  # Development-time dependencies.
+		),
+	
+	tests_require = tests_require,
+	
+	# Plugin Registration
 	
 	entry_points = {
 			'web.dispatch': [
 					'object = web.dispatch.object:ObjectDispatch',
 				],
 		},
-	
-	install_requires = [],
-	
-	extras_require = dict(
-			development = tests_require,
-		),
-	
-	tests_require = tests_require,
-	
-	dependency_links = [],
-	
-	zip_safe = True,
-	cmdclass = dict(
-			test = PyTest,
-		)
 )
