@@ -78,13 +78,13 @@ class ObjectDispatch:
 		path = prepare_path(path)
 		
 		for previous, current in ipeek(path):  # Things can get hairy, so we need to track both this and the previous.
-			if isclass(obj):  # We instantate classes we encounter during dispatch.
+			if isclass(obj):  # We instantiate classes we encounter during dispatch.
 				obj = obj() if context is None else obj(context)
 				
 				if __debug__:
 					log.debug("Instantiated class during descent.", extra=dict(LE, obj=obj))
 				
-				# yield Crumb(self, origin, handler=obj)
+				yield Crumb(self, origin, handler=obj)
 			
 			if protect:
 				if current[0] == '_' or isbuiltin(obj):
@@ -109,7 +109,7 @@ class ObjectDispatch:
 			obj = new  # Continue processing the next level of path from this point.
 		
 		else:  # No path left to consume. Wherever we go, there we are. This handles the "empty path" case.
-			if isclass(obj):  # We instantate classes we encounter during dispatch.
+			if isclass(obj) and getattr(obj, '__dispatch__', 'object') == 'object':  # We instantiate classes we encounter during dispatch.
 				obj = obj() if context is None else obj(context)
 				
 				if __debug__:
@@ -118,7 +118,7 @@ class ObjectDispatch:
 			if __debug__:
 				log.debug("Dispatch complete due to exhausted path.", extra=dict(LE, obj=obj))
 			
-			yield Crumb(self, origin, path=current, endpoint=True, handler=obj)
+			yield Crumb(self, origin, path=current, endpoint=callable(obj) and not hasattr(obj, '__dispatch__'), handler=obj)
 			return
 		
 		# We bailed, so "obj" represents the last found attribute, "previous" is the path element matching that
@@ -132,7 +132,7 @@ class ObjectDispatch:
 					attribute = current,
 				))
 		
-		if callable(obj):  # We don't reeeeeally care what type of callable, here...
+		if callable(obj) and not getattr(obj, '__dispatch__', None):  # We don't reeeeeally care what type of callable, here...
 			yield Crumb(self, origin, path=previous, endpoint=True, handler=obj, options=opts(obj))
 		else:
 			yield Crumb(self, origin, path=previous, endpoint=False, handler=obj, options=opts(obj))
